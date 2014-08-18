@@ -3,7 +3,7 @@ package writer
 
 import (
   "testing"
-  "io/ioutil"
+  // "io/ioutil"
 )
 
 func TestMakeCode(t *testing.T) {
