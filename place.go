@@ -8,5 +8,5 @@ const (
   byIndent
   byComma
   byAppend
-  byParen
+  bySentence
 )
