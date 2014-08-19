@@ -4,13 +4,20 @@ Cirru Writer
 
 Format Cirru AST into intented format.
 
-[![GoDoc](https://godoc.org/github.com/Cirru/json-loader?status.png)][godoc]
+[![GoDoc](https://godoc.org/github.com/Cirru/writer?status.png)][godoc]
 
 ### Usage
 
+```go
+import "github.com/Cirru/writer"
+
+content, _ := ioutil.ReadFile(filename)
+return MakeCode(content)
+```
+
 Read [GoDoc][godoc] for details.
 
-[godoc]: https://godoc.org/github.com/Cirru/json-loader
+[godoc]: https://godoc.org/github.com/Cirru/writer
 
 ### Rules
 
