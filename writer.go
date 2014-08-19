@@ -1,4 +1,6 @@
 
+// This package converts Cirru AST in JSON to Cirru code.
+// Visit http://cirru.org for more.
 package writer
 
 import (
@@ -6,6 +8,7 @@ import (
   // "fmt"
 )
 
+// Takes bytes of JSON and returns code of CIrru.
 func MakeCode(content []byte) string {
   tree := loader.ParseText(content)
   expr := convertSlice(tree)
@@ -37,10 +40,10 @@ func markLines(tree *expression) {
 func markTree(tree *expression) {
   end := tree.len() - 1
   okForParens := true
-  lastPlace := byIndent
+  lastPlace := bySentence
   for index, child := range(tree.list) {
     if expr, ok := child.(*expression); ok {
-      if index == end {
+      if (lastPlace == byAppend) && (index == end) {
         expr.place = byDollar
       } else if index == 0 {
         expr.place = byAppend
@@ -72,9 +75,13 @@ func markTree(tree *expression) {
 
 func formatLines(tree *expression) string {
   buffer := ""
-  for _, child := range(tree.list) {
+  for index, child := range(tree.list) {
     if expr, ok := child.(*expression); ok {
-      buffer = buffer + "\n\n"
+      if index == 0 {
+        buffer = buffer + "\n"
+      } else {
+        buffer = buffer + "\n\n"
+      }
       formatTree(expr, "", &buffer)
     } else {
       panic("should get expression")
@@ -84,6 +91,9 @@ func formatLines(tree *expression) string {
 }
 
 func formatTree(tree *expression, ss string, cursor *string) {
+  if tree.place != byDollar {
+    ss += "  "
+  }
   atLineHead := true
   for _, child := range(tree.list) {
     if expr, ok := child.(*expression); ok {
@@ -95,15 +105,18 @@ func formatTree(tree *expression, ss string, cursor *string) {
         *cursor += expr.format()
       case byIndent:
         *cursor += "\n"
-        sss := ss + "  "
-        *cursor += sss
-        formatTree(expr, sss, cursor)
+        *cursor += ss
+        formatTree(expr, ss, cursor)
       case byDollar:
         if !atLineHead {
           *cursor += " "
         }
-        *cursor += "$ "
-        formatTree(expr, ss, cursor)
+        if expr.len() > 0 {
+          *cursor += "$ "
+          formatTree(expr, ss, cursor)
+        } else {
+          *cursor += "$"
+        }
       default: panic("should not have anoter option for expressions")
       }
     } else if tok, ok := child.(*token); ok {

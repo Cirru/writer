@@ -50,7 +50,7 @@ a
   e f
 ```
 
-* start new lines when theres too many parameters
+* start new lines when theres too many parameters(not yet)
 
 ```cirru
 a b c d
