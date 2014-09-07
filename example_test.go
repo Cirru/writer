@@ -1,9 +1,13 @@
 
 package writer
 
-import "io/ioutil"
+import (
+  "io/ioutil"
+  "github.com/Cirru/json-loader"
+)
 
 func ExampleMakeCode(filename string) string {
   content, _ := ioutil.ReadFile(filename)
-  return MakeCode(content)
+  tree := loader.ParseText(content)
+  return MakeCode(tree)
 }

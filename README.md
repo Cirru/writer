@@ -9,10 +9,12 @@ Format Cirru AST into intented format.
 ### Usage
 
 ```go
-import "github.com/Cirru/writer"
+// import "github.com/Cirru/writer"
+// import "github.com/Cirru/json-loader"
 
 content, _ := ioutil.ReadFile(filename)
-return MakeCode(content)
+tree := loader.ParseText(content)
+return MakeCode(tree)
 ```
 
 Read [GoDoc][godoc] for details.

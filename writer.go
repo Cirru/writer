@@ -4,13 +4,11 @@
 package writer
 
 import (
-  "github.com/Cirru/json-loader"
   // "fmt"
 )
 
-// Takes bytes of JSON and returns code of CIrru.
-func MakeCode(content []byte) string {
-  tree := loader.ParseText(content)
+// Takes Cirru simplfied AST and returns code of CIrru.
+func MakeCode(tree []interface{}) string {
   expr := convertSlice(tree)
   markLines(expr)
   return formatLines(expr)
